@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugins/ha_project_setup" >
+        <file>icon.png</file>
+    </qresource>
+</RCC>
