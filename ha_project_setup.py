@@ -1014,12 +1014,19 @@ class HAProjectSetup:
                 home_dir = QgsProject.instance().homePath()
                 layers = QgsProject.instance().mapLayers().values()
                 layer_count = 0
+                layer_outside_home = []
                 for layer in layers:
                     if layer.providerType() in ["xyz", "wms", "wmts"]:
                         continue
+
+                    if layer.name() == "GCAT_raw":  
+                        continue  # Exclude GCAT_raw from the check
+
                     if not layer.source().startswith(home_dir):
                         layer_count += 1
                         iface.messageBar().pushWarning('Directory Checker:',f"Layer '{layer.name()}' is not in the project home directory.")
+                        layer_outside_home.append(layer.name())
+                        
                 if layer_count > 0:
                     QMessageBox.warning(None, "Directory Checker", 
                     f'{str(layer_count)} layers are not in your project home directory\n')
